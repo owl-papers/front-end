@@ -1,0 +1,6 @@
+open-articles-front-end:
+  component: "@sls-next/serverless-component@3.4.0"
+  inputs:
+    bucketName: ${env.BUCKET_NAME}
+    cloudfront:
+      distributionId: ${env.DISTRIBUTION_ID}
