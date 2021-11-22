@@ -1,4 +1,4 @@
-# Open Articles
+# Owl papers
 
 
 ## Getting Started
