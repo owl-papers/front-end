@@ -4,12 +4,13 @@ import { Container, Grid } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
 import SearchBar from '@components/SearchBar';
+import PageHandler from '@components/PageHandler';
 
 export default function Home() {
   const [page, setPage] = useState(0);
-  const { data, isLoading } = useQueryCollectibles(page);
   const { Moralis } = useMoralis();
   const [filter, setFilter] = useState('');
+  const { data, isLoading } = useQueryCollectibles(page, filter);
   const checkChain = async () => {
     const web3 = await (Moralis as any).enableWeb3();
     console.log((web3 as any).currentProvider.chainId);
@@ -33,15 +34,14 @@ export default function Home() {
           alignItems="flex-start"
         >
           {!isLoading &&
-            data.nfts
-              .filter((nft) => nft.name.toLowerCase().includes(filter))
-              .map((nft, indx) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <Grid key={indx} item xs={4}>
-                  <ImgMediaCard {...nft} />
-                </Grid>
-              ))}
+            data.nfts.map((nft, indx) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Grid key={indx} item xs={4}>
+                <ImgMediaCard {...nft} />
+              </Grid>
+            ))}
         </Grid>
+        <PageHandler page={page} setFunction={setPage} />
       </Container>
     </>
   );

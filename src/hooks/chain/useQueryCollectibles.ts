@@ -7,14 +7,18 @@ type Nft = {
   name: string;
 };
 
-export default function useQueryCollectibles(queryPage) {
+export default function useQueryCollectibles(queryPage, queryString) {
   const { Moralis } = useMoralis();
   (Moralis as any).enableWeb3();
 
-  const query = async (page) => {
+  const query = async (page, searchString) => {
     const art = Moralis.Object.extend('ArticlesMinted');
     const aQuery = new Moralis.Query(art);
-    const results = await aQuery.limit(9).skip(page).find();
+    aQuery.limit(9).skip(page);
+    if (searchString !== '') {
+      aQuery.fullText('name', searchString);
+    }
+    const results = await aQuery.find();
     const parsedResults = results.map((result) => {
       return {
         ...result.attributes,
@@ -28,5 +32,7 @@ export default function useQueryCollectibles(queryPage) {
     return { nfts: parsedResults };
   };
 
-  return useQuery(['get/collectibles', queryPage], () => query(queryPage));
+  return useQuery(['get/collectibles', queryPage, queryString], () =>
+    query(queryPage, queryString)
+  );
 }

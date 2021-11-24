@@ -30,7 +30,7 @@ export default function SearchBar({ onClick }) {
   return (
     <Paper className={classes.root}>
       <InputBase
-        placeholder="Search"
+        placeholder="Search by name"
         inputProps={{ 'aria-label': 'search' }}
         className={classes.input}
         onKeyPress={(e) => e.key === 'Enter' && onClick(value.current)}
