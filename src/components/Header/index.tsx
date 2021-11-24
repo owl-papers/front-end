@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import DocIcon from '@material-ui/icons/Group';
 import InfoIcon from '@material-ui/icons/Info';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -79,6 +80,11 @@ export default function ResponsiveDrawer(props: Props) {
             text: 'Check marketplace',
             icon: <ShoppingBasketIcon className={classes.icons} />,
             route: '/market'
+          },
+          {
+            text: 'Ask for a decentralized review',
+            icon: <DocIcon className={classes.icons} />,
+            route: '/ask'
           },
           {
             text: 'What is Owl papers?',

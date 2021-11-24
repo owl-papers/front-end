@@ -43,7 +43,8 @@ export default function Mint() {
       <Typography variant="h4"> Mint a new article as a NFT</Typography>
       <Typography>
         First, the content of the article will be uploaded as an URI and after
-        that it will call a function of the ERC1155 to mint this collectible
+        that it will call a function of the ERC1155 to mint this collectible.
+        For this process to work, you need to be logged in.
       </Typography>
 
       <TextField
