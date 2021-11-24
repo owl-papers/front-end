@@ -14,7 +14,7 @@ export default function useQueryCollectibles(queryPage, queryString) {
   const query = async (page, searchString) => {
     const art = Moralis.Object.extend('ArticlesMinted');
     const aQuery = new Moralis.Query(art);
-    aQuery.limit(9).skip(page);
+    aQuery.limit(9).skip(page * 9);
     if (searchString !== '') {
       aQuery.fullText('name', searchString);
     }
