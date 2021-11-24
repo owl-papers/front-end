@@ -46,7 +46,9 @@ export default function useCreateCollectible() {
         });
       },
       onError: (response) => {
-        console.log(response);
+        enqueueSnackbar(String(response), {
+          variant: 'error'
+        });
       }
     }
   );

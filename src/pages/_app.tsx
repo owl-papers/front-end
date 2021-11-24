@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }) {
       >
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
-            <SnackbarProvider maxSnack={3000} autoHideDuration={2}>
+            <SnackbarProvider maxSnack={5} autoHideDuration={3000}>
               <BuildLayout />
             </SnackbarProvider>
           </QueryClientProvider>

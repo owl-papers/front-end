@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -19,6 +19,8 @@ import ArticleIcon from '@material-ui/icons/Archive';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AddIcon from '@material-ui/icons/AddBox';
 
+import { useMoralis } from 'react-moralis';
+import { Button } from '@material-ui/core';
 import useStyles from './styles';
 
 interface Props {
@@ -36,10 +38,23 @@ export default function ResponsiveDrawer(props: Props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
+  const { Moralis, authenticate, isAuthenticated, isAuthenticating, logout } =
+    useMoralis();
   const handleDrawerToggle = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) (Moralis as any).enableWeb3();
+  }, [isAuthenticated]);
+
+  async function handleAuth() {
+    if (!isAuthenticated) {
+      await authenticate();
+    } else {
+      logout();
+    }
+  }
 
   const drawer = (
     <div>
@@ -106,6 +121,13 @@ export default function ResponsiveDrawer(props: Props) {
           </IconButton>
           <div className={classes.BarIcons}>
             <img className={classes.imageIcon} src="/owl_logo.png" alt="logo" />
+            <div>
+              <Button onClick={handleAuth}>
+                <h3 style={{ color: '#173457', cursor: 'pointer' }}>
+                  {isAuthenticated ? `Logged in ` : 'Login with Metamask'}
+                </h3>
+              </Button>
+            </div>
           </div>
         </Toolbar>
       </AppBar>

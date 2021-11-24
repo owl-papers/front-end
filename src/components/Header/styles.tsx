@@ -70,6 +70,12 @@ export default makeStyles((theme: Theme) =>
       height: '40px',
       width: 'auto'
     },
-    BarIcons: {}
+    BarIcons: {
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      width: '100%'
+    }
   })
 );
