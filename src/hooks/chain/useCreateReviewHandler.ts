@@ -85,5 +85,26 @@ export default function useCreateCollectible() {
     }
   );
 
-  return { createContract, fundWithLink };
+  const genRandom = useMutation(
+    async (reviewContractAddress: string) => {
+      const web3 = await Moralis.Web3.enableWeb3();
+      const [current] = await web3.eth.getAccounts();
+      const reviewHandler = new web3.eth.Contract(abi, reviewContractAddress);
+      await reviewHandler.methods.getRandomNumber().send({ from: current });
+    },
+    {
+      onSuccess: () => {
+        enqueueSnackbar('contract funded with Link', {
+          variant: 'success'
+        });
+      },
+      onError: (response) => {
+        enqueueSnackbar(String(response), {
+          variant: 'error'
+        });
+      }
+    }
+  );
+
+  return { createContract, fundWithLink, genRandom };
 }

@@ -4,8 +4,9 @@ import useCreateReviewHandler from '@hooks/chain/useCreateReviewHandler';
 
 export default function Mint() {
   const {
-    fundWithLink: { mutate },
-    createContract: { data, refetch, isLoading }
+    fundWithLink: { mutate: fund },
+    createContract: { data, refetch, isLoading },
+    genRandom: { mutate: randomize }
   } = useCreateReviewHandler();
 
   return (
@@ -42,9 +43,23 @@ export default function Mint() {
         variant="contained"
         size="medium"
         color="primary"
-        onClick={() => mutate(data?.deployedAt)}
+        onClick={() => fund(data?.deployedAt)}
       >
         Fund With Link
+      </Button>
+
+      <Typography>
+        After the contract is funded with link, you should be able to generate
+        the random number, necessary to decide who will be able to review.
+      </Typography>
+
+      <Button
+        variant="contained"
+        size="medium"
+        color="primary"
+        onClick={() => randomize(data?.deployedAt)}
+      >
+        Generate randomness
       </Button>
     </FormControl>
   );
