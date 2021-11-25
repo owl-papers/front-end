@@ -38,6 +38,11 @@ export default function useCreateCollectible() {
           console.log('Transaction Hash :', transactionHash);
         })
         .on('confirmation', () => {});
+      const ReviewHandlerClass = Moralis.Object.extend('ReviewHandler');
+      const obj = new ReviewHandlerClass();
+      obj.set('address', newContractInstance.options.address);
+      obj.set('creator', current);
+      obj.save();
       return { deployedAt: newContractInstance.options.address };
     },
     {
