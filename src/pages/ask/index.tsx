@@ -89,7 +89,7 @@ export default function Ask() {
         onClick={() =>
           setPaper({
             reviewContractAddress: data?.deployedAt,
-            paperNftAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS_MUMBAI,
+            paperNftAddress: process.env.NEXT_PUBLIC_ERC1155_ADDRESS_MUMBAI,
             tokenId
           })}
       >

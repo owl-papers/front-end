@@ -23,7 +23,7 @@ export default function useQueryMineCollectibles() {
     const web3 = await (Moralis as any).enableWeb3();
     const [current] = await web3.eth.getAccounts();
     const options = {
-      contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS_MUMBAI,
+      contractAddress: process.env.NEXT_PUBLIC_ERC1155_ADDRESS_MUMBAI,
       abi
     };
 

@@ -8,7 +8,7 @@ export default function useCreateCollectible() {
   const { Moralis } = useMoralis();
   const { abi } = Articles;
   const options = {
-    contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS_MUMBAI,
+    contractAddress: process.env.NEXT_PUBLIC_ERC1155_ADDRESS_MUMBAI,
     abi
   };
 

@@ -32,7 +32,13 @@ export default function useQueryCollectibles(queryPage, queryString) {
     return { nfts: parsedResults };
   };
 
-  return useQuery(['get/collectibles', queryPage, queryString], () =>
-    query(queryPage, queryString)
+  return useQuery(
+    ['get/collectibles', queryPage, queryString],
+    () => query(queryPage, queryString),
+    {
+      initialData: {
+        nfts: []
+      }
+    }
   );
 }
