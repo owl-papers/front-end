@@ -94,7 +94,7 @@ export default function useCreateCollectible() {
     },
     {
       onSuccess: () => {
-        enqueueSnackbar('contract funded with Link', {
+        enqueueSnackbar('randomness generator function called', {
           variant: 'success'
         });
       },
@@ -106,5 +106,52 @@ export default function useCreateCollectible() {
     }
   );
 
-  return { createContract, fundWithLink, genRandom };
+  const setPaperReview = useMutation(
+    async ({ reviewContractAddress, paperNftAddress, tokenId }: any) => {
+      const web3 = await Moralis.Web3.enableWeb3();
+      const [current] = await web3.eth.getAccounts();
+      const reviewHandler = new web3.eth.Contract(abi, reviewContractAddress);
+      await reviewHandler.methods
+        .setPaperToReview(paperNftAddress, tokenId)
+        .send({ from: current });
+    },
+    {
+      onSuccess: () => {
+        enqueueSnackbar('nft to review setted', {
+          variant: 'success'
+        });
+      },
+      onError: (response) => {
+        enqueueSnackbar(String(response), {
+          variant: 'error'
+        });
+      }
+    }
+  );
+
+  const addReward = useMutation(
+    async ({ reviewContractAddress, reward }: any) => {
+      const web3 = await Moralis.Web3.enableWeb3();
+      const [current] = await web3.eth.getAccounts();
+      const reviewHandler = new web3.eth.Contract(abi, reviewContractAddress);
+      await reviewHandler.methods.accReward().send({
+        from: current,
+        value: web3.utils.toWei(String(reward), 'ether')
+      });
+    },
+    {
+      onSuccess: () => {
+        enqueueSnackbar('reward accumulated', {
+          variant: 'success'
+        });
+      },
+      onError: (response) => {
+        enqueueSnackbar(String(response), {
+          variant: 'error'
+        });
+      }
+    }
+  );
+
+  return { createContract, fundWithLink, genRandom, addReward, setPaperReview };
 }

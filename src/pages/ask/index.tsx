@@ -1,12 +1,18 @@
-import { Button, Typography, FormControl } from '@material-ui/core';
+import { useState } from 'react';
+import { Button, Typography, FormControl, TextField } from '@material-ui/core';
 
 import useCreateReviewHandler from '@hooks/chain/useCreateReviewHandler';
 
-export default function Mint() {
+export default function Ask() {
+  const [reward, setReward] = useState('');
+  const [tokenId, setTokenId] = useState('');
+
   const {
     fundWithLink: { mutate: fund },
     createContract: { data, refetch, isLoading },
-    genRandom: { mutate: randomize }
+    genRandom: { mutate: randomize },
+    addReward: { mutate: add },
+    setPaperReview: { mutate: setPaper }
   } = useCreateReviewHandler();
 
   return (
@@ -60,6 +66,55 @@ export default function Mint() {
         onClick={() => randomize(data?.deployedAt)}
       >
         Generate randomness
+      </Button>
+
+      <Typography>
+        Set the Paper NFT tokenID that is going to be reviewed by other
+        researchers. It needs to be a tokenID that you were the creator.
+      </Typography>
+
+      <TextField
+        id="standard-multiline-flexible"
+        label="tokenId"
+        type="number"
+        margin="normal"
+        value={tokenId}
+        onChange={(e) => setTokenId(e.target.value)}
+      />
+
+      <Button
+        variant="contained"
+        size="medium"
+        color="primary"
+        onClick={() =>
+          setPaper({
+            reviewContractAddress: data?.deployedAt,
+            paperNftAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS_MUMBAI,
+            tokenId
+          })}
+      >
+        Set token ID
+      </Button>
+      <Typography>
+        To incentivize reviewers to create reviews, add a generous reward (in
+        units of matic):
+      </Typography>
+
+      <TextField
+        id="standard-multiline-flexible"
+        label="reward value"
+        type="number"
+        margin="normal"
+        value={reward}
+        onChange={(e) => setReward(e.target.value)}
+      />
+      <Button
+        variant="contained"
+        size="medium"
+        color="primary"
+        onClick={() => add({ reviewContractAddress: data?.deployedAt, reward })}
+      >
+        Set reward
       </Button>
     </FormControl>
   );
