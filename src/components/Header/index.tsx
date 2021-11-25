@@ -87,6 +87,11 @@ export default function ResponsiveDrawer(props: Props) {
             route: '/ask'
           },
           {
+            text: 'Asked Reviews',
+            icon: <DocIcon className={classes.icons} />,
+            route: '/asked-reviews'
+          },
+          {
             text: 'What is Owl papers?',
             icon: <InfoIcon className={classes.icons} />,
             route: '/market'
@@ -128,7 +133,7 @@ export default function ResponsiveDrawer(props: Props) {
           <div className={classes.BarIcons}>
             <img className={classes.imageIcon} src="/owl_logo.png" alt="logo" />
             <div>
-              <Button onClick={handleAuth}>
+              <Button onClick={handleAuth} disabled={isAuthenticating}>
                 <h3 style={{ color: '#173457', cursor: 'pointer' }}>
                   {isAuthenticated ? `Logged in ` : 'Login with Metamask'}
                 </h3>
