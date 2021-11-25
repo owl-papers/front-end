@@ -1,42 +1,12 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import {
-  Button,
-  Typography,
-  TextField,
-  FormControl,
-  CircularProgress
-} from '@material-ui/core';
+import { Button, Typography, FormControl } from '@material-ui/core';
 
-import useCreateCollectible from '@hooks/chain/useCreateCollectible';
+import useCreateReviewHandler from '@hooks/chain/useCreateReviewHandler';
 
 export default function Mint() {
-  const [image, setImage] = useState<File>();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [preview, setPreview] = useState('');
-  const { mutate, isLoading } = useCreateCollectible();
-
-  useEffect(() => {
-    if (!image) {
-      setPreview(undefined);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(image);
-    setPreview(objectUrl);
-  }, [image]);
-
-  const selectFile = (event: ChangeEvent<HTMLInputElement>) => {
-    setImage(event.target.files[0]);
-  };
-
-  const callMint = () => {
-    mutate({
-      name,
-      description,
-      image
-    });
-  };
+  const {
+    fundWithLink: { mutate },
+    createContract: { data, refetch, isLoading }
+  } = useCreateReviewHandler();
 
   return (
     <FormControl>
@@ -45,6 +15,37 @@ export default function Mint() {
         A decentralized peer review consists in a smart contract that handles
         the decision on who will review an paper and the rewards for reviewing.
       </Typography>
+
+      <Button
+        variant="contained"
+        size="medium"
+        color="primary"
+        onClick={() => refetch()}
+      >
+        create
+      </Button>
+
+      <Typography>
+        After deployed, your review handler contract will show below:
+      </Typography>
+      <Typography>
+        {isLoading ? 'deploying contract...' : `${data?.deployedAt}`}
+      </Typography>
+
+      <Typography>
+        Once your contract is deployed and the address is shown above, you
+        <strong> must </strong>
+        fund it with link
+      </Typography>
+
+      <Button
+        variant="contained"
+        size="medium"
+        color="primary"
+        onClick={() => mutate(data?.deployedAt)}
+      >
+        Fund With Link
+      </Button>
     </FormControl>
   );
 }
