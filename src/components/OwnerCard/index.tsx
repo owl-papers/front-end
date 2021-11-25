@@ -12,11 +12,31 @@ import { useMoralis } from 'react-moralis';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345
+    maxWidth: 500
+  },
+  title: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'box',
+    lineClamp: 2,
+    boxOrient: 'vertical'
+  },
+  description: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: 'box',
+    lineClamp: 4,
+    boxOrient: 'vertical'
   }
 });
 
-export default function OwnedCard({ name, description, image, balance }) {
+export default function OwnedCard({
+  name,
+  description,
+  image,
+  balance,
+  tokenId
+}) {
   const classes = useStyles();
   const { Moralis } = useMoralis();
 
@@ -40,10 +60,21 @@ export default function OwnedCard({ name, description, image, balance }) {
           title="Contemplative Reptile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography
+            className={classes.title}
+            gutterBottom
+            variant="h5"
+            component="h2"
+          >
             {name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+
+          <Typography
+            className={classes.description}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
             {description}
           </Typography>
         </CardContent>
@@ -54,6 +85,11 @@ export default function OwnedCard({ name, description, image, balance }) {
         </Button>
         <Typography variant="body2" color="textSecondary" component="p">
           {`Owned: ${balance}`}
+        </Typography>
+      </CardActions>
+      <CardActions>
+        <Typography color="primary" component="p" gutterBottom>
+          {`tokenId: ${tokenId}`}
         </Typography>
       </CardActions>
     </Card>

@@ -8,6 +8,7 @@ interface NftType {
   description: string;
   image: string;
   balance: string;
+  tokenId: string;
 }
 
 interface PromiseFulfilledResult<T> {
@@ -33,6 +34,7 @@ export default function useQueryMineCollectibles() {
     });
 
     const balances = [];
+    const tokenIds = [];
     for (let i = 0; i < lastId; i += 1) {
       const balance = Moralis.Web3.executeFunction({
         ...options,
@@ -43,6 +45,7 @@ export default function useQueryMineCollectibles() {
         }
       });
       balances.push(balance);
+      tokenIds.push(String(i));
     }
 
     const resolvedBalances = (await Promise.allSettled<Promise<any>[]>(
@@ -84,6 +87,7 @@ export default function useQueryMineCollectibles() {
           const imgIpfsHash = image.replace('ipfs://', '');
           rp.value.image = `https://gateway.ipfs.io/ipfs/${imgIpfsHash}`;
           rp.value.balance = resolvedBalances[i].value;
+          rp.value.tokenId = tokenIds[i];
           return rp.value as NftType;
         }
         return null;
